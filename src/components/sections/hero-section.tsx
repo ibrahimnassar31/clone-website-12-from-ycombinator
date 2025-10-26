@@ -30,7 +30,6 @@ const HeroSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Background image parallax and scale animation
       gsap.fromTo(imageRef.current,
         {
           scale: 1.2,
@@ -44,7 +43,6 @@ const HeroSection = () => {
         }
       );
 
-      // Text reveal animation with clipping
       gsap.fromTo(headingRef.current,
         {
           opacity: 0,
@@ -61,7 +59,6 @@ const HeroSection = () => {
         }
       );
 
-      // Timeline items staggered animation
       if (timelineRef.current) {
         const items = timelineRef.current.children;
         gsap.fromTo(items,
@@ -82,7 +79,6 @@ const HeroSection = () => {
         );
       }
 
-      // CTA button animation
       gsap.fromTo(ctaRef.current,
         {
           opacity: 0,
@@ -99,7 +95,6 @@ const HeroSection = () => {
         }
       );
 
-      // Scroll indicator animation
       gsap.fromTo(scrollIndicatorRef.current,
         {
           opacity: 0,
@@ -114,17 +109,18 @@ const HeroSection = () => {
         }
       );
 
-      // Continuous scroll indicator bounce
-      gsap.to(scrollIndicatorRef.current?.querySelector("svg"), {
-        y: 8,
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: 2.5,
-      });
+      const svgElement = scrollIndicatorRef.current?.querySelector("svg");
+      if (svgElement) {
+        gsap.to(svgElement, {
+          y: 8,
+          duration: 1.5,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+          delay: 2.5,
+        });
+      }
 
-      // Background image parallax on scroll
       gsap.to(imageRef.current, {
         y: 100,
         ease: "none",
@@ -136,7 +132,6 @@ const HeroSection = () => {
         },
       });
 
-      // Text fade out on scroll
       gsap.to([headingRef.current, timelineRef.current, ctaRef.current], {
         opacity: 0,
         y: -50,
@@ -231,9 +226,7 @@ const HeroSection = () => {
   };
 
   const toggleVideoPlayback = () => {
-    setIsVideoPlaying(!isVideoPlaying);
-    // Here you would typically control video playback
-    // For now, we'll just animate the play/pause button
+    setIsVideoPlaying(!isVideoPlaying);  
     const button = document.querySelector('.video-control');
     if (button) {
       gsap.to(button, {
@@ -251,7 +244,6 @@ const HeroSection = () => {
       ref={sectionRef}
       className="relative flex items-center justify-center w-full min-h-screen bg-black text-white overflow-hidden"
     >
-      {/* Background Image with Enhanced Effects */}
       <div className="absolute inset-0 overflow-hidden">
         <Image
           ref={imageRef}
@@ -263,16 +255,13 @@ const HeroSection = () => {
           priority
         />
         
-        {/* Enhanced Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/60 z-0" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30 z-0" />
         
-        {/* Animated Light Effects */}
         <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/5 to-transparent opacity-50" />
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/80 to-transparent" />
       </div>
 
-      {/* Floating Particles */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(12)].map((_, i) => (
           <div
@@ -288,7 +277,6 @@ const HeroSection = () => {
       </div>
 
       <div className="container relative z-10 flex flex-col lg:flex-row items-center justify-between w-full h-full text-foreground px-5 md:px-10">
-        {/* Left Content */}
         <div className="lg:w-1/2 flex flex-col justify-center text-left mb-10 lg:mb-0">
           <h1 
             ref={headingRef}
@@ -306,7 +294,6 @@ const HeroSection = () => {
               EST. 1989
             </p>
             
-            {/* Video Playback Control */}
             <button
               onClick={toggleVideoPlayback}
               className="video-control flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors duration-300 group"
@@ -326,7 +313,6 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* Right Timeline */}
         <div className="lg:w-[45%] xl:w-2/5 flex flex-col items-start space-y-2">
           <div className="w-full h-px bg-white/30 mb-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse" />
@@ -338,10 +324,8 @@ const HeroSection = () => {
                 key={index}
                 className="flex items-center justify-between w-full text-sm py-3 px-4 rounded-lg hover:bg-white/5 transition-all duration-300 cursor-pointer group relative overflow-hidden"
               >
-                {/* Animated Dot */}
                 <div className="timeline-dot absolute left-0 w-2 h-2 bg-white/50 rounded-full transition-all duration-300" />
                 
-                {/* Animated Connector */}
                 <div 
                   className="timeline-connector absolute left-1 h-px bg-white/30 scale-x-0 origin-left transition-transform duration-500"
                   style={{ width: 'calc(100% - 2rem)' }}
@@ -355,7 +339,6 @@ const HeroSection = () => {
             ))}
           </div>
 
-          {/* Enhanced CTA */}
           <Link
             ref={ctaRef}
             href="/contact"
@@ -370,7 +353,6 @@ const HeroSection = () => {
               <ArrowRight className="w-4 h-4 transition-transform duration-300" />
             </div>
             
-            {/* Hover Shine Effect */}
             <div className="absolute inset-0 -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000">
               <div className="w-1/2 h-full bg-white/10" />
             </div>
@@ -378,7 +360,6 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Enhanced Scroll Indicator */}
       <div 
         ref={scrollIndicatorRef}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 z-10 text-white/80 opacity-0"
